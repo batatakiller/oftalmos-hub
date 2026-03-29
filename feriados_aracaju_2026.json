@@ -1,0 +1,132 @@
+[
+  {
+    "data": "01 Janeiro",
+    "nome": "Ano Novo",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "16 Fevereiro",
+    "nome": "Carnaval",
+    "tipo": "Ponto Facultativo"
+  },
+  {
+    "data": "17 Fevereiro",
+    "nome": "Carnaval",
+    "tipo": "Ponto Facultativo"
+  },
+  {
+    "data": "18 Fevereiro",
+    "nome": "Carnaval",
+    "tipo": "Ponto Facultativo"
+  },
+  {
+    "data": "17 Março",
+    "nome": "Aniversário",
+    "tipo": "Feriado Municipal"
+  },
+  {
+    "data": "01 Abril",
+    "nome": "Dia da Mentira",
+    "tipo": "Feriado"
+  },
+  {
+    "data": "03 Abril",
+    "nome": "Sexta-Feira Santa",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "05 Abril",
+    "nome": "Páscoa",
+    "tipo": "Feriado"
+  },
+  {
+    "data": "21 Abril",
+    "nome": "Dia de Tiradentes",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "01 Maio",
+    "nome": "Dia do Trabalho",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "10 Maio",
+    "nome": "Dia das Mães",
+    "tipo": "Feriado"
+  },
+  {
+    "data": "04 Junho",
+    "nome": "Corpus Christi",
+    "tipo": "Ponto Facultativo"
+  },
+  {
+    "data": "12 Junho",
+    "nome": "Dia dos Namorados",
+    "tipo": "Feriado"
+  },
+  {
+    "data": "24 Junho",
+    "nome": "São João",
+    "tipo": "Feriado Municipal"
+  },
+  {
+    "data": "08 Julho",
+    "nome": "Aniversário de Sergipe",
+    "tipo": "Feriado Estadual"
+  },
+  {
+    "data": "09 Agosto",
+    "nome": "Dia dos Pais",
+    "tipo": "Feriado"
+  },
+  {
+    "data": "07 Setembro",
+    "nome": "Independência do Brasil",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "12 Outubro",
+    "nome": "Nossa Senhora Aparecida",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "15 Outubro",
+    "nome": "Dia do Professor",
+    "tipo": "Ponto Facultativo"
+  },
+  {
+    "data": "17 Outubro",
+    "nome": "Dia do Comércio",
+    "tipo": "Feriado"
+  },
+  {
+    "data": "28 Outubro",
+    "nome": "Dia do Servidor Público",
+    "tipo": "Ponto Facultativo"
+  },
+  {
+    "data": "02 Novembro",
+    "nome": "Dia de Finados",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "15 Novembro",
+    "nome": "Proclamação da República",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "20 Novembro",
+    "nome": "Consciência Negra",
+    "tipo": "Feriado Nacional"
+  },
+  {
+    "data": "08 Dezembro",
+    "nome": "Padroeira",
+    "tipo": "Feriado Municipal"
+  },
+  {
+    "data": "25 Dezembro",
+    "nome": "Natal",
+    "tipo": "Feriado Nacional"
+  }
+]

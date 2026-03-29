@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  oftalmos-hub:
+    build: .
+    container_name: oftalmos-hub
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - EVO_URL=${EVO_URL}
+      - EVO_KEY=${EVO_KEY}
+      - EVO_INSTANCE=${EVO_INSTANCE}
+    labels:
+      # Traefik (Coolify proxy) - expõe via subdomínio sem abrir porta extra
+      - "traefik.enable=true"
+      - "traefik.http.routers.oftalmos-hub.rule=Host(`hub-oftalmos.147.15.99.72.sslip.io`)"
+      - "traefik.http.routers.oftalmos-hub.entrypoints=http"
+      - "traefik.http.services.oftalmos-hub.loadbalancer.server.port=3001"
+    networks:
+      - coolify
+
+networks:
+  coolify:
+    external: true
