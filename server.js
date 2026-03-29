@@ -23,33 +23,69 @@ const supabase = createClient(
 // A Evolution API envia POST para esta rota quando chega msg
 // ─────────────────────────────────────────────────────────────
 app.post('/webhook/evolution', async (req, res) => {
-  res.status(200).send('OK'); // Responder rápido para não gerar timeout
+  // 1. Responder rápido para evitar timeout
+  res.status(200).send('OK');
 
   try {
-    const body = req.body;
+    let body = req.body;
+
+    // DEBUG: Logar tudo o que chega para descobrir o formato exato
+    console.log(`[WEBHOOK] ${new Date().toISOString()} - Payload bruto recebido:`, 
+      typeof body === 'string' ? `String (${body.length} chars)` : 'Objeto JSON');
+
+    // Suporte caso o Evolution API envie em Base64
+    if (typeof body === 'string' && body.length > 0) {
+      try {
+        const decoded = Buffer.from(body, 'base64').toString('utf-8');
+        body = JSON.parse(decoded);
+        console.log('[WEBHOOK] Sucesso ao decodificar Base64');
+      } catch (e) {
+        // Se não for base64 ou falhar no parse, ignora
+        console.log('[WEBHOOK] Recebeu string mas não é Base64 JSON válido');
+      }
+    }
+
     const event = body?.event;
+    console.log(`[WEBHOOK] Evento detectado: ${event}`);
 
-    console.log(`[WEBHOOK] Evento recebido: ${event}`);
-
-    if (event !== 'messages.upsert') return;
+    // Lista de eventos que queremos processar (adicione outros conforme necessário)
+    if (event !== 'messages.upsert') {
+      console.log(`[WEBHOOK] Evento '${event}' ignorado.`);
+      return;
+    }
 
     const data = body.data;
     const key = data?.key;
     const msg = data?.message;
 
-    if (!key || !msg || key.fromMe) return; // Ignorar mensagens próprias
+    // Log detalhado para debug de campos da mensagem
+    if (!key || !msg) {
+      console.log('[WEBHOOK] Payload incompleto (key ou message ausentes):', JSON.stringify(data).substring(0, 100));
+      return;
+    }
+
+    if (key.fromMe) {
+      console.log('[WEBHOOK] Ignorando mensagem outbound própria.');
+      return;
+    }
 
     const remoteJid = key.remoteJid || '';
     const phone = remoteJid.split('@')[0].replace(/\D/g, '');
+    
+    // Extrair o texto de diferentes formatos de mensagem (conversação simples ou texto estendido)
     const text = msg.conversation
       || msg.extendedTextMessage?.text
       || msg.imageMessage?.caption
       || '';
 
-    if (!text || !phone) return;
+    if (!text || !phone) {
+      console.log(`[WEBHOOK] Texto ou telefone ausente. Phone: ${phone}, Text length: ${text?.length}`);
+      return;
+    }
 
-    console.log(`[WEBHOOK INBOUND] ${phone}: ${text.substring(0, 40)}`);
+    console.log(`[WEBHOOK INBOUND] ✅ Processando msg de ${phone}: ${text.substring(0, 40)}...`);
 
+    // Inserir no Supabase
     const { error } = await supabase.from('whatsapp_chat').insert([{
       phone,
       message: text,
@@ -58,11 +94,14 @@ app.post('/webhook/evolution', async (req, res) => {
       sender_phone: phone
     }]);
 
-    if (error) console.error('[WEBHOOK] Erro ao salvar:', error.message);
-    else console.log(`[WEBHOOK] ✅ Mensagem de ${phone} salva no Supabase!`);
+    if (error) {
+      console.error('[WEBHOOK DB ERR]', error.message);
+    } else {
+      console.log(`[WEBHOOK] ✅ Mensagem de ${phone} salva no Supabase com sucesso.`);
+    }
 
   } catch (err) {
-    console.error('[WEBHOOK] Erro geral:', err.message);
+    console.error('[WEBHOOK FATAL ERR]', err.message, err.stack);
   }
 });
 
