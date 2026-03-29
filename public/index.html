@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oftalmos HUB | Kanban & Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f1f5f9; }
+        .kanban-col { background: rgba(255, 255, 255, 0.02); min-height: 70vh; transition: border 0.3s; }
+        .kanban-col.drag-over { border: 2px dashed rgba(59, 130, 246, 0.5); background: rgba(59, 130, 246, 0.05); }
+        .card-item { background: rgba(255, 255, 255, 0.05); cursor: grab; transition: opacity 0.2s; }
+        .card-item:active { cursor: grabbing; opacity: 0.5; }
+        .chat-sidebar { background: #020617; border-left: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <header class="p-6 flex justify-between items-center border-b border-white/5">
+        <div class="flex items-center gap-3">
+            <h1 class="text-xl font-bold italic tracking-tighter text-blue-400">OFTALMOS HUB V2</h1>
+        </div>
+        <button onclick="loadBoard()" class="p-2 bg-white/5 rounded-full hover:bg-white/10">
+            <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+        </button>
+    </header>
+
+    <main class="p-8 grid grid-cols-4 gap-6 h-[calc(100vh-100px)] overflow-x-auto">
+        <!-- Colunas Kanban -->
+        <div class="flex flex-col gap-4" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'triagem')">
+            <h2 class="text-xs font-bold opacity-30 uppercase tracking-widest px-2">Triagem</h2>
+            <div id="col-triagem" class="kanban-col rounded-2xl p-4 flex flex-col gap-3 border border-transparent"></div>
+        </div>
+        <div class="flex flex-col gap-4" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'atendimento')">
+            <h2 class="text-xs font-bold opacity-30 uppercase tracking-widest px-2 text-blue-400">Em Atendimento</h2>
+            <div id="col-atendimento" class="kanban-col rounded-2xl p-4 flex flex-col gap-3 border border-transparent"></div>
+        </div>
+        <div class="flex flex-col gap-4" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'agendado')">
+            <h2 class="text-xs font-bold opacity-30 uppercase tracking-widest px-2">Agendado</h2>
+            <div id="col-agendado" class="kanban-col rounded-2xl p-4 flex flex-col gap-3 border border-transparent"></div>
+        </div>
+        <div class="flex flex-col gap-4" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'concluido')">
+            <h2 class="text-xs font-bold opacity-30 uppercase tracking-widest px-2 text-green-400">Concluído</h2>
+            <div id="col-concluido" class="kanban-col rounded-2xl p-4 flex flex-col gap-3 border border-transparent"></div>
+        </div>
+    </main>
+
+    <!-- Sidebar Chat -->
+    <div id="chat-sidebar" class="chat-sidebar fixed top-0 right-0 w-[450px] h-full z-50 translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+        <div class="p-6 border-b border-white/5 flex justify-between items-center">
+            <div>
+                <h3 id="chat-title" class="font-bold">Chat</h3>
+                <p id="chat-phone" class="text-[10px] opacity-40"></p>
+            </div>
+            <button onclick="closeChat()" class="p-2 hover:bg-white/10 rounded-lg"><i data-lucide="x"></i></button>
+        </div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-900/50"></div>
+        <div class="p-6 border-t border-white/10 flex gap-4">
+            <input id="msg-input" type="text" placeholder="Responder..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-xs focus:outline-none">
+            <button onclick="sendMessage()" class="bg-blue-600 px-4 py-2 rounded-xl"><i data-lucide="send" class="w-4 h-4"></i></button>
+        </div>
+    </div>
+
+    <!-- JS SDK do Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Configuração Frontend do Supabase (Injetado via Script para simplificar)
+        // OBS: Em produção, use Anon Keys limitadas por RLS.
+        const SUPABASE_URL = "http://supabasekong-oftalmos.147.15.99.72.sslip.io";
+        const SUPABASE_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc3NDYzNTQ4MCwiZXhwIjo0OTMwMzA5MDgwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.7EZ6NNJuHFru26f31cuKLTwE72DMpI_sJzae1SRDNV4";
+        
+        // CORRIGIDO: Renomeado para 'sb' para evitar conflito com a global 'supabase' do CDN
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentCard = null;
+
+        // DRAG AND DROP
+        function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('drag-over'); }
+        function dragLeave(ev) { ev.currentTarget.classList.remove('drag-over'); }
+        
+        async function drop(ev, newCol) {
+            ev.preventDefault();
+            ev.currentTarget.classList.remove('drag-over');
+            const cardIdArg = ev.dataTransfer.getData("cardId");
+            const dbId = cardIdArg.replace('card-', '');
+            
+            console.log(`[DRAG] Alterando ${dbId} para ${newCol}...`);
+            await sb.from('kanban_cards').update({ coluna: newCol }).eq('id', dbId);
+            // O realtime detetará o update e fará o reload automático via loadBoard()
+        }
+
+        // INICIAR REALTIME
+        function setupRealtime() {
+            // Ouvir mudanças no Kanban
+            sb
+                .channel('kanban-realtime')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'kanban_cards' }, () => {
+                    console.log("[REALTIME] Mudança no Kanban detetada!");
+                    loadBoard();
+                })
+                .subscribe();
+
+            // Ouvir mensagens de Chat
+            sb
+                .channel('chat-realtime')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'whatsapp_chat' }, (payload) => {
+                    if (currentCard && payload.new.phone === currentCard.whatsapp_cliente) {
+                        console.log("[REALTIME] Nova mensagem recebida!");
+                        updateChatHistory();
+                    }
+                })
+                .subscribe();
+        }
+
+        async function loadBoard() {
+            const res = await fetch('/api/cards');
+            const data = await res.json();
+            ['triagem','atendimento','agendado','concluido'].forEach(c => document.getElementById(`col-${c}`).innerHTML='');
+            
+            data.forEach(card => {
+                const col = document.getElementById(`col-${card.coluna}`);
+                const cardEl = document.createElement('div');
+                cardEl.id = `card-${card.id}`;
+                cardEl.draggable = true;
+                cardEl.ondragstart = (e) => { e.dataTransfer.setData("cardId", cardEl.id); };
+                cardEl.onclick = () => openChat(card);
+                cardEl.className = 'card-item p-4 rounded-xl border border-white/5 shadow-md flex flex-col gap-2 relative group';
+                cardEl.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="text-[9px] uppercase font-bold text-blue-400 bg-blue-400/10 px-1.5 py-0.5 rounded">${card.prioridade}</span>
+                        <div class="w-8 h-8 rounded-full border border-white/10 overflow-hidden bg-slate-800">
+                             <img src="/api/proxy-image/${card.whatsapp_cliente}" 
+                                  onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(card.titulo)}&background=random'" 
+                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                        </div>
+                    </div>
+                    <p class="text-xs font-semibold leading-tight mt-1 truncate">${card.titulo}</p>
+                    <div class="flex items-center gap-1 opacity-40 text-[9px] mt-1">
+                        <i data-lucide="phone" class="w-2.5 h-2.5"></i><span>${card.whatsapp_cliente}</span>
+                    </div>
+                `;
+                col.appendChild(cardEl);
+            });
+            lucide.createIcons();
+        }
+
+        async function updateChatHistory() {
+            if (!currentCard) return;
+            const res = await fetch(`/api/chat/${currentCard.whatsapp_cliente}`);
+            const history = await res.json();
+            const box = document.getElementById('chat-messages');
+            box.innerHTML = history.length === 0 ? '<p class="text-center opacity-20 text-[10px]">Sem mensagens.</p>' : '';
+            
+            history.forEach(m => {
+                const direction = m.direction === 'inbound' ? 'left' : 'right';
+                const time = new Date(m.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                const senderName = m.direction === 'outbound' ? (m.sender_phone || 'Oftalmos') : '';
+                
+                const div = document.createElement('div');
+                div.className = `flex ${direction === 'left' ? 'justify-start' : 'justify-end'}`;
+                div.innerHTML = `
+                    <div class="${direction === 'left' ? 'bg-white/10 rounded-bl-none' : 'bg-blue-700 rounded-br-none'} p-3 rounded-xl max-w-[85%] shadow-sm relative">
+                        ${senderName ? `<p class="text-[9px] font-bold text-blue-200 mb-1 uppercase tracking-tighter">${senderName}</p>` : ''}
+                        <p class="text-[11px] leading-tight mb-1">${m.message}</p>
+                        <p class="text-[8px] opacity-40 text-right">${time}</p>
+                    </div>
+                `;
+                box.appendChild(div);
+            });
+            box.scrollTop = box.scrollHeight;
+        }
+
+        async function openChat(card) {
+            currentCard = card;
+            document.getElementById('chat-title').innerText = card.titulo;
+            document.getElementById('chat-phone').innerText = card.whatsapp_cliente;
+            document.getElementById('chat-sidebar').classList.remove('translate-x-full');
+            await updateChatHistory();
+        }
+
+        function closeChat() { 
+            document.getElementById('chat-sidebar').classList.add('translate-x-full'); 
+            currentCard = null; 
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('msg-input');
+            const val = input.value;
+            if(!val || !currentCard) return;
+            input.value = "Enviando...";
+            await fetch('/api/send', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ number: currentCard.whatsapp_cliente, text: val })
+            });
+            input.value = "";
+            // updateChatHistory() será chamado via Realtime automaticamente se houver insert no banco
+        }
+
+        setupRealtime();
+        loadBoard();
+        lucide.createIcons();
+    </script>
+</body>
+</html>
