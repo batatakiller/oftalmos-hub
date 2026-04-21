@@ -7,7 +7,7 @@ from supabase_helper import SupabaseHelper
 # Configuração de Fuso Horário
 TIMEZONE = pytz.timezone("America/Maceio") # Fuso de Aracaju/SE (UTC-3)
 CURRENT_YEAR = 2026
-TABLE_NAME = "calendario_atendimento"
+TABLE_NAME = "feriados"
 
 # Mapeamento de meses para números
 MONTHS_MAP = {
@@ -33,38 +33,32 @@ def migrate():
         print(str(e))
         return
 
-    print(f"🚀 Iniciando migração de {len(feriados_data)} itens para o Supabase...")
+    print(f"🚀 Iniciando migração de {len(feriados_data)} itens para a tabela '{TABLE_NAME}'...")
 
     for item in feriados_data:
         try:
-            # Converter "17 Março" para objeto Datetime
-            parts = item["data"].split(" ")
-            day = int(parts[0])
-            month_name = parts[1]
+            day = item["dia"]
+            month_name = item["mes"]
+            year = item.get("ano", CURRENT_YEAR)
             month = MONTHS_MAP.get(month_name, 1)
 
-            # Criar datetime com fuso horário correto (meia-noite do feriado)
-            dt = datetime(CURRENT_YEAR, month, day, 0, 0, 0)
-            localized_dt = TIMEZONE.localize(dt)
+            # Formata apenas a DATA (YYYY-MM-DD) para coluna DATE do Postgres
+            iso_date = f"{year:04d}-{month:02d}-{day:02d}"
 
-            # Preparar dados para o Supabase
+            # Preparar dados para o Supabase (Limpo, sem descrição repetida)
             payload = {
-                "start_time": localized_dt.isoformat(),
+                "data": iso_date,
                 "titulo": item["nome"],
-                "tipo": "feriado",
-                "descricao": f"Feriado Extraído: {item['tipo']}",
-                "status": "bloqueado"
+                "tipo": item["tipo"] # Agora virá: 'nacional', 'municipal', etc.
             }
 
-            # Usar UPSERT para evitar duplicatas baseadas no start_time
-            # (Assumindo que você criou a CONSTRAINT no SQL conforme instruído)
-            print(f"  [*] Subindo: {item['nome']} ({day}/{month})")
+            print(f"  [*] Subindo: {item['nome']} ({iso_date}) como {item['tipo']}")
             db.upsert(TABLE_NAME, payload)
 
         except Exception as e:
             print(f"  [X] Erro ao processar item {item}: {e}")
 
-    print("\n✅ Migração concluída com sucesso! Verifique seu dashboard do Supabase.")
+    print("\n✅ Migração para nova tabela concluída com sucesso!")
 
 if __name__ == "__main__":
     migrate()

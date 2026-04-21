@@ -1,0 +1,475 @@
+{
+  "Webhook": {
+    "main": [
+      [
+        {
+          "node": "Info",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Info": {
+    "main": [
+      [
+        {
+          "node": "Roteamento de Origem",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Roteamento de Origem": {
+    "main": [
+      [
+        {
+          "node": "Registrar Interação Humana",
+          "type": "main",
+          "index": 0
+        }
+      ],
+      [
+        {
+          "node": "Mensagem chegando?",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Mensagem chegando?": {
+    "main": [
+      [
+        {
+          "node": "Tipo de mensagem",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Tipo de mensagem": {
+    "main": [
+      [
+        {
+          "node": "Enfileirar mensagem",
+          "type": "main",
+          "index": 0
+        }
+      ],
+      [
+        {
+          "node": "Obter Áudio Base64",
+          "type": "main",
+          "index": 0
+        }
+      ],
+      [
+        {
+          "node": "Obter Imagem Base64",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Enfileirar mensagem": {
+    "main": [
+      [
+        {
+          "node": "Esperar",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Esperar": {
+    "main": [
+      [
+        {
+          "node": "Buscar mensagens",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Buscar mensagens": {
+    "main": [
+      [
+        {
+          "node": "Mensagem encavalada?",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Mensagem encavalada?": {
+    "main": [
+      [
+        {
+          "node": "Limpar fila de mensagens",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Limpar fila de mensagens": {
+    "main": [
+      [
+        {
+          "node": "Enviar presença",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Enviar presença": {
+    "main": [
+      [
+        {
+          "node": "Concatenar mensagens",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Concatenar mensagens": {
+    "main": [
+      [
+        {
+          "node": "Consultar Status IA",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Consultar Status IA": {
+    "main": [
+      [
+        {
+          "node": "Verificar Timer",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Verificar Timer": {
+    "main": [
+      [
+        {
+          "node": "Porteiro (Bloqueia?)",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Porteiro (Bloqueia?)": {
+    "main": [
+      [],
+      [
+        {
+          "node": "Precisa Reativar?",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Precisa Reativar?": {
+    "main": [
+      [
+        {
+          "node": "Reativar IA no DB",
+          "type": "main",
+          "index": 0
+        }
+      ],
+      [
+        {
+          "node": "Preparar Input IA",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Reativar IA no DB": {
+    "main": [
+      [
+        {
+          "node": "Preparar Input IA",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Preparar Input IA": {
+    "main": [
+      [
+        {
+          "node": "Carregar Histórico",
+          "type": "main",
+          "index": 0
+        },
+        {
+          "node": "Gravar Mensagem Entrada",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Carregar Histórico": {
+    "main": [
+      [
+        {
+          "node": "Formatar Histórico",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Formatar Histórico": {
+    "main": [
+      [
+        {
+          "node": "Agente Íris",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Formatar Texto": {
+    "main": [
+      [
+        {
+          "node": "Enviar Texto",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Enviar Texto": {
+    "main": [
+      [
+        {
+          "node": "Gravar Resposta Sofia",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Memory": {
+    "ai_memory": [
+      [
+        {
+          "node": "Agente Íris",
+          "type": "ai_memory",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Gemini Formatador": {
+    "ai_languageModel": [
+      [
+        {
+          "node": "Formatar Texto",
+          "type": "ai_languageModel",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Obter Áudio Base64": {
+    "main": [
+      [
+        {
+          "node": "Converter Áudio",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Converter Áudio": {
+    "main": [
+      [
+        {
+          "node": "Transcrever Áudio",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Transcrever Áudio": {
+    "main": [
+      [
+        {
+          "node": "Set mensagem áudio",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Set mensagem áudio": {
+    "main": [
+      [
+        {
+          "node": "Preparar Input IA",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Obter Imagem Base64": {
+    "main": [
+      [
+        {
+          "node": "Converter Imagem",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Analisar Imagem": {
+    "main": [
+      [
+        {
+          "node": "Set mensagem imagem",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Set mensagem imagem": {
+    "main": [
+      [
+        {
+          "node": "Preparar Input IA",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Gravar Mensagem Entrada": {
+    "main": [
+      []
+    ]
+  },
+  "Escalar Humano": {
+    "ai_tool": [
+      [
+        {
+          "node": "Agente Íris",
+          "type": "ai_tool",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Gemini Agente": {
+    "ai_languageModel": [
+      [
+        {
+          "node": "Agente Íris",
+          "type": "ai_languageModel",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Refletir": {
+    "ai_tool": [
+      [
+        {
+          "node": "Agente Íris",
+          "type": "ai_tool",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "MCP Client": {
+    "ai_tool": [
+      [
+        {
+          "node": "Agente Íris",
+          "type": "ai_tool",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Agente Íris": {
+    "main": [
+      [
+        {
+          "node": "Formatar Texto",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "RAG": {
+    "ai_tool": [
+      [
+        {
+          "node": "Agente Íris",
+          "type": "ai_tool",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Converter Imagem": {
+    "main": [
+      [
+        {
+          "node": "Upload para Supabase Storage",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Update a row": {
+    "main": [
+      []
+    ]
+  },
+  "Upload para Supabase Storage": {
+    "main": [
+      [
+        {
+          "node": "Update a row",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  }
+}

@@ -1,132 +1,184 @@
 [
   {
-    "data": "01 Janeiro",
+    "dia": 1,
+    "mes": "Janeiro",
+    "ano": 2026,
     "nome": "Ano Novo",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "16 Fevereiro",
+    "dia": 16,
+    "mes": "Fevereiro",
+    "ano": 2026,
     "nome": "Carnaval",
-    "tipo": "Ponto Facultativo"
+    "tipo": "facultativo"
   },
   {
-    "data": "17 Fevereiro",
+    "dia": 17,
+    "mes": "Fevereiro",
+    "ano": 2026,
     "nome": "Carnaval",
-    "tipo": "Ponto Facultativo"
+    "tipo": "facultativo"
   },
   {
-    "data": "18 Fevereiro",
+    "dia": 18,
+    "mes": "Fevereiro",
+    "ano": 2026,
     "nome": "Carnaval",
-    "tipo": "Ponto Facultativo"
+    "tipo": "facultativo"
   },
   {
-    "data": "17 Março",
+    "dia": 17,
+    "mes": "Março",
+    "ano": 2026,
     "nome": "Aniversário",
-    "tipo": "Feriado Municipal"
+    "tipo": "municipal"
   },
   {
-    "data": "01 Abril",
+    "dia": 1,
+    "mes": "Abril",
+    "ano": 2026,
     "nome": "Dia da Mentira",
-    "tipo": "Feriado"
+    "tipo": "data_comemorativa"
   },
   {
-    "data": "03 Abril",
+    "dia": 3,
+    "mes": "Abril",
+    "ano": 2026,
     "nome": "Sexta-Feira Santa",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "05 Abril",
+    "dia": 5,
+    "mes": "Abril",
+    "ano": 2026,
     "nome": "Páscoa",
-    "tipo": "Feriado"
+    "tipo": "data_comemorativa"
   },
   {
-    "data": "21 Abril",
+    "dia": 21,
+    "mes": "Abril",
+    "ano": 2026,
     "nome": "Dia de Tiradentes",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "01 Maio",
+    "dia": 1,
+    "mes": "Maio",
+    "ano": 2026,
     "nome": "Dia do Trabalho",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "10 Maio",
+    "dia": 10,
+    "mes": "Maio",
+    "ano": 2026,
     "nome": "Dia das Mães",
-    "tipo": "Feriado"
+    "tipo": "data_comemorativa"
   },
   {
-    "data": "04 Junho",
+    "dia": 4,
+    "mes": "Junho",
+    "ano": 2026,
     "nome": "Corpus Christi",
-    "tipo": "Ponto Facultativo"
+    "tipo": "facultativo"
   },
   {
-    "data": "12 Junho",
+    "dia": 12,
+    "mes": "Junho",
+    "ano": 2026,
     "nome": "Dia dos Namorados",
-    "tipo": "Feriado"
+    "tipo": "data_comemorativa"
   },
   {
-    "data": "24 Junho",
+    "dia": 24,
+    "mes": "Junho",
+    "ano": 2026,
     "nome": "São João",
-    "tipo": "Feriado Municipal"
+    "tipo": "municipal"
   },
   {
-    "data": "08 Julho",
+    "dia": 8,
+    "mes": "Julho",
+    "ano": 2026,
     "nome": "Aniversário de Sergipe",
-    "tipo": "Feriado Estadual"
+    "tipo": "estadual"
   },
   {
-    "data": "09 Agosto",
+    "dia": 9,
+    "mes": "Agosto",
+    "ano": 2026,
     "nome": "Dia dos Pais",
-    "tipo": "Feriado"
+    "tipo": "data_comemorativa"
   },
   {
-    "data": "07 Setembro",
+    "dia": 7,
+    "mes": "Setembro",
+    "ano": 2026,
     "nome": "Independência do Brasil",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "12 Outubro",
+    "dia": 12,
+    "mes": "Outubro",
+    "ano": 2026,
     "nome": "Nossa Senhora Aparecida",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "15 Outubro",
+    "dia": 15,
+    "mes": "Outubro",
+    "ano": 2026,
     "nome": "Dia do Professor",
-    "tipo": "Ponto Facultativo"
+    "tipo": "facultativo"
   },
   {
-    "data": "17 Outubro",
+    "dia": 17,
+    "mes": "Outubro",
+    "ano": 2026,
     "nome": "Dia do Comércio",
-    "tipo": "Feriado"
+    "tipo": "data_comemorativa"
   },
   {
-    "data": "28 Outubro",
+    "dia": 28,
+    "mes": "Outubro",
+    "ano": 2026,
     "nome": "Dia do Servidor Público",
-    "tipo": "Ponto Facultativo"
+    "tipo": "facultativo"
   },
   {
-    "data": "02 Novembro",
+    "dia": 2,
+    "mes": "Novembro",
+    "ano": 2026,
     "nome": "Dia de Finados",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "15 Novembro",
+    "dia": 15,
+    "mes": "Novembro",
+    "ano": 2026,
     "nome": "Proclamação da República",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "20 Novembro",
+    "dia": 20,
+    "mes": "Novembro",
+    "ano": 2026,
     "nome": "Consciência Negra",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   },
   {
-    "data": "08 Dezembro",
+    "dia": 8,
+    "mes": "Dezembro",
+    "ano": 2026,
     "nome": "Padroeira",
-    "tipo": "Feriado Municipal"
+    "tipo": "municipal"
   },
   {
-    "data": "25 Dezembro",
+    "dia": 25,
+    "mes": "Dezembro",
+    "ano": 2026,
     "nome": "Natal",
-    "tipo": "Feriado Nacional"
+    "tipo": "nacional"
   }
 ]
